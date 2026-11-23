@@ -1272,7 +1272,7 @@ impl PopupMenu {
             Icon::empty()
         };
 
-        Some(icon.xsmall())
+        Some(icon.small())
     }
 
     /// Calculate the anchor corner and left offset for child submenu
@@ -1324,7 +1324,7 @@ impl PopupMenu {
         let has_left_icon = options.has_left_icon;
         let is_left_check = options.check_side.is_left() && item.is_checked();
         let right_check_icon = if options.check_side.is_right() && item.is_checked() {
-            Some(Icon::new(IconName::Check).xsmall())
+            Some(Icon::new(IconName::Check).small())
         } else {
             None
         };
@@ -1337,12 +1337,12 @@ impl PopupMenu {
 
         let (item_height, radius) = match self.size {
             Size::Small => (rems(1.25), options.radius.half()),
-            _ => (rems(1.625), options.radius),
+            _ => (rems(2.), options.radius),
         };
 
         let this = MenuItemElement::new(ix)
             .relative()
-            .text_sm()
+            .text_xs()
             .py_0()
             .px(INNER_PADDING)
             .rounded(radius)
@@ -1381,9 +1381,8 @@ impl PopupMenu {
             PopupMenuItem::Separator => this
                 .h_auto()
                 .p_0()
-                .my_0p5()
                 .mx_neg_1()
-                .border_b(px(2.))
+                .border_b(px(1.))
                 .border_color(cx.theme().border)
                 .disabled(true),
             PopupMenuItem::Label(label) => this.disabled(true).cursor_default().child(
@@ -1391,7 +1390,7 @@ impl PopupMenu {
                     .flex_row_dir(cx)
                     .cursor_default()
                     .items_center()
-                    .gap_x_1()
+                    .gap_x_2()
                     .children(Self::render_icon(has_left_icon, false, None, window, cx))
                     .child(div().flex_1().child(label.clone())),
             ),
@@ -1413,7 +1412,7 @@ impl PopupMenu {
                         .flex_1()
                         .min_h(item_height)
                         .items_center()
-                        .gap_x_1()
+                        .gap_x_2()
                         .children(Self::render_icon(
                             has_left_icon,
                             is_left_check,
@@ -1443,7 +1442,7 @@ impl PopupMenu {
                 })
                 .disabled(*disabled)
                 .h(item_height)
-                .gap_x_1()
+                .gap_x_2()
                 .children(Self::render_icon(
                     has_left_icon,
                     is_left_check,
@@ -1498,7 +1497,7 @@ impl PopupMenu {
                         .min_h(item_height)
                         .size_full()
                         .items_center()
-                        .gap_x_1()
+                        .gap_x_2()
                         .children(Self::render_icon(
                             has_left_icon,
                             false,
@@ -1630,8 +1629,6 @@ impl Render for PopupMenu {
             .child(
                 v_flex()
                     .id("items")
-                    .p_1()
-                    .gap_y_0p5()
                     .min_w(rems(8.))
                     .when_some(self.min_width, |this, min_width| this.min_w(min_width))
                     .map(|this| match self.max_width {
